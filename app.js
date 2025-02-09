@@ -1,4 +1,3 @@
-// app.js
 const { useState, useEffect } = React;
 
 const WeeklyScheduler = () => {
@@ -94,7 +93,7 @@ const WeeklyScheduler = () => {
               <select
                 value={selectedDay}
                 onChange={(e) => setSelectedDay(e.target.value)}
-                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all"
+                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all outline-none"
               >
                 {diasSemana.map(dia => (
                   <option key={dia} value={dia}>{dia}</option>
@@ -108,7 +107,7 @@ const WeeklyScheduler = () => {
                 type="time"
                 value={newTime}
                 onChange={(e) => setNewTime(e.target.value)}
-                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all"
+                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all outline-none"
               />
             </div>
 
@@ -140,7 +139,7 @@ const WeeklyScheduler = () => {
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
                 placeholder="¿Qué tienes planeado?"
-                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all"
+                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all outline-none"
               />
             </div>
 
