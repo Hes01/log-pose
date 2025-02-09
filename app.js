@@ -1,14 +1,35 @@
+// app.js
 const { useState, useEffect } = React;
+
 const WeeklyScheduler = () => {
   const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   
-  // Categorías inspiradas en personajes de One Piece
+  // Categorías con colores premium y efectos de gradiente
   const categorias = [
-    { nombre: 'Prioridad Pirata', color: 'bg-red-100/80 border-red-400', icon: '🏴‍☠️' }, // Luffy
-    { nombre: 'Entrenamiento', color: 'bg-green-100/80 border-green-400', icon: '⚔️' },   // Zoro
-    { nombre: 'Navegación', color: 'bg-orange-100/80 border-orange-400', icon: '🗺️' },    // Nami
-    { nombre: 'Aventura', color: 'bg-blue-100/80 border-blue-400', icon: '🌊' },          // Jinbe
-    { nombre: 'Cocina', color: 'bg-yellow-100/80 border-yellow-400', icon: '🍖' }         // Sanji
+    { 
+      nombre: 'Prioritario', 
+      color: 'bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 border-violet-200',
+      hoverColor: 'hover:from-violet-500/20 hover:to-fuchsia-500/20',
+      textColor: 'text-violet-700'
+    },
+    { 
+      nombre: 'Personal', 
+      color: 'bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-200',
+      hoverColor: 'hover:from-cyan-500/20 hover:to-blue-500/20',
+      textColor: 'text-cyan-700'
+    },
+    { 
+      nombre: 'Trabajo', 
+      color: 'bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border-emerald-200',
+      hoverColor: 'hover:from-emerald-500/20 hover:to-teal-500/20',
+      textColor: 'text-emerald-700'
+    },
+    { 
+      nombre: 'Lifestyle', 
+      color: 'bg-gradient-to-br from-rose-500/10 to-pink-500/10 border-rose-200',
+      hoverColor: 'hover:from-rose-500/20 hover:to-pink-500/20',
+      textColor: 'text-rose-700'
+    }
   ];
 
   const initialTasks = diasSemana.reduce((acc, dia) => {
@@ -43,7 +64,7 @@ const WeeklyScheduler = () => {
           time: newTime,
           categoria: selectedCategory.nombre,
           color: selectedCategory.color,
-          icon: selectedCategory.icon
+          textColor: selectedCategory.textColor
         }]
       }));
       setNewTask('');
@@ -60,22 +81,20 @@ const WeeklyScheduler = () => {
   };
 
   const AddTaskForm = () => (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md bg-white/90 backdrop-blur-lg shadow-2xl border border-white/50">
-        <CardHeader className="border-b border-white/20">
-          <CardTitle className="text-xl flex items-center gap-2">
-            <Skull className="h-6 w-6 text-red-500" />
-            Nueva Aventura
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="space-y-4">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-2xl flex items-center justify-center p-4 z-50 transition-all">
+      <div className="w-full max-w-md bg-white/70 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 overflow-hidden transition-transform">
+        <div className="border-b border-white/20 p-6 bg-gradient-to-br from-white/50 to-white/30">
+          <h2 className="text-2xl font-semibold text-gray-900">Nueva Tarea</h2>
+          <p className="text-sm text-gray-500 mt-1">Planifica tu próxima actividad</p>
+        </div>
+        <div className="p-6 space-y-6">
+          <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium mb-1">Día de la Aventura</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Día</label>
               <select
                 value={selectedDay}
                 onChange={(e) => setSelectedDay(e.target.value)}
-                className="w-full p-2 rounded-xl border bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-red-500"
+                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all"
               >
                 {diasSemana.map(dia => (
                   <option key={dia} value={dia}>{dia}</option>
@@ -84,119 +103,118 @@ const WeeklyScheduler = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-1">Hora</label>
-              <div className="relative">
-                <Clock className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                <input
-                  type="time"
-                  value={newTime}
-                  onChange={(e) => setNewTime(e.target.value)}
-                  className="w-full pl-10 p-2 rounded-xl border bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-red-500"
-                />
-              </div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Hora</label>
+              <input
+                type="time"
+                value={newTime}
+                onChange={(e) => setNewTime(e.target.value)}
+                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all"
+              />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Tipo de Misión</label>
-              <div className="grid grid-cols-2 gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
+              <div className="grid grid-cols-2 gap-3">
                 {categorias.map(cat => (
                   <button
                     key={cat.nombre}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`p-2 rounded-xl border transition-all flex items-center gap-2 ${
+                    className={`p-4 rounded-2xl border transition-all ${
                       selectedCategory.nombre === cat.nombre
-                        ? cat.color + ' border-2'
-                        : 'bg-white/50 border-white/20'
-                    }`}
+                        ? cat.color + ' border-2 border-' + cat.textColor
+                        : 'bg-white/40 border-white/60 hover:bg-white/50'
+                    } backdrop-blur-sm`}
                   >
-                    <span>{cat.icon}</span>
-                    {cat.nombre}
+                    <span className={selectedCategory.nombre === cat.nombre ? cat.textColor : 'text-gray-700'}>
+                      {cat.nombre}
+                    </span>
                   </button>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Descripción de la Misión</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
               <input
                 type="text"
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
-                placeholder="¿Cuál es tu próxima aventura?"
-                className="w-full p-2 rounded-xl border bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-red-500"
+                placeholder="¿Qué tienes planeado?"
+                className="w-full p-4 rounded-2xl border border-white/60 bg-white/40 backdrop-blur-sm focus:ring-2 focus:ring-violet-500/50 focus:border-violet-300 transition-all"
               />
             </div>
 
-            <div className="flex gap-2 justify-end pt-4">
+            <div className="flex gap-3 pt-4">
               <button
                 onClick={() => setIsAdding(false)}
-                className="px-4 py-2 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors"
+                className="flex-1 p-4 rounded-2xl border border-white/60 text-gray-700 font-medium bg-white/40 hover:bg-white/50 backdrop-blur-sm transition-all"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleAddTask}
-                className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 transition-colors flex items-center gap-2"
+                className="flex-1 p-4 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-medium hover:from-violet-600 hover:to-purple-600 shadow-lg shadow-purple-500/30 transition-all"
               >
-                <Check className="h-4 w-4" />
-                ¡A la Aventura!
+                Agregar
               </button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 
   return (
-    <div className="p-4 min-h-screen bg-gradient-to-br from-blue-50 to-red-50">
-      <Card className="w-full max-w-6xl mx-auto bg-white/70 backdrop-blur-lg shadow-2xl border border-white/50">
-        <CardHeader className="border-b border-white/20 bg-white/30">
-          <div className="flex justify-between items-center">
-            <CardTitle className="text-2xl font-bold flex items-center gap-2">
-              <img src="/api/placeholder/32/32" alt="One Piece Logo" className="h-8 w-8" />
-              Log Pose Semanal
-            </CardTitle>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-blue-50 p-4 sm:p-6 md:p-8">
+      <div className="w-full max-w-7xl mx-auto bg-white/60 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/50 overflow-hidden">
+        <div className="border-b border-white/20 bg-gradient-to-br from-white/50 to-white/30 p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h1 className="text-3xl font-semibold bg-gradient-to-br from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Planificador Semanal
+              </h1>
+              <p className="text-gray-500 mt-1">Organiza tu semana de manera eficiente</p>
+            </div>
             <button
               onClick={() => setIsAdding(true)}
-              className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full hover:from-red-600 hover:to-red-700 transition-colors flex items-center gap-2 shadow-lg"
+              className="px-6 py-3 bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-2xl hover:from-violet-600 hover:to-purple-600 transition-all font-medium shadow-lg shadow-purple-500/20"
             >
-              <Plus className="h-4 w-4" />
-              Nueva Aventura
+              Nueva Tarea
             </button>
           </div>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        </div>
+        <div className="p-6 sm:p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
             {diasSemana.map(dia => (
-              <div key={dia} className="rounded-2xl bg-white/60 backdrop-blur-sm shadow-lg border border-white/50 overflow-hidden hover:shadow-xl transition-all">
-                <div className="p-3 border-b border-white/20 bg-white/30">
-                  <h3 className="font-bold text-gray-700">{dia}</h3>
+              <div key={dia} className="rounded-2xl bg-white/40 backdrop-blur-sm shadow-xl border border-white/50 overflow-hidden hover:shadow-2xl transition-all">
+                <div className="p-4 border-b border-white/20 bg-gradient-to-br from-white/50 to-white/30">
+                  <h3 className="font-medium text-gray-900">{dia}</h3>
                 </div>
-                <div className="p-3">
+                <div className="p-4">
                   {tasks[dia].length === 0 ? (
-                    <p className="text-gray-400 text-sm italic">¡Isla sin explorar!</p>
+                    <p className="text-gray-400 text-sm">Sin tareas pendientes</p>
                   ) : (
-                    <ul className="space-y-2">
+                    <ul className="space-y-3">
                       {tasks[dia]
                         .sort((a, b) => a.time.localeCompare(b.time))
                         .map((task, index) => (
                           <li
                             key={index}
-                            className={`p-3 rounded-xl border ${task.color} backdrop-blur-sm transition-all hover:shadow-md`}
+                            className={`p-4 rounded-2xl border ${task.color} backdrop-blur-sm transition-all hover:shadow-md`}
                           >
-                            <div className="flex justify-between items-start gap-2">
-                              <span className="text-sm font-medium flex items-center gap-2">
-                                {task.icon} {task.time}
-                              </span>
+                            <div className="flex justify-between items-start">
+                              <span className="text-sm font-medium text-gray-900">{task.time}</span>
                               <button
                                 onClick={() => handleDeleteTask(dia, index)}
                                 className="text-gray-400 hover:text-red-500 transition-colors"
                               >
-                                <X className="h-4 w-4" />
+                                ×
                               </button>
                             </div>
-                            <p className="text-sm mt-1">{task.text}</p>
+                            <p className="text-sm mt-2 text-gray-700">{task.text}</p>
+                            <span className={`text-xs mt-2 block ${task.textColor}`}>
+                              {task.categoria}
+                            </span>
                           </li>
                         ))}
                     </ul>
@@ -205,12 +223,12 @@ const WeeklyScheduler = () => {
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
-
+        </div>
+      </div>
       {isAdding && <AddTaskForm />}
     </div>
   );
 };
 
-export default WeeklyScheduler;
+// Renderizamos la aplicación
+ReactDOM.render(<WeeklyScheduler />, document.getElementById('root'));
